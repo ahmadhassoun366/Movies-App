@@ -1,26 +1,63 @@
-<div class="pt-16 bg-black min-h-screen text-white">
-  <div
-    *ngIf="movie$ | async as movie; else loading"
-    class="p-5 max-w-4xl mx-auto"
-  >
-    <div class="flex flex-col md:flex-row gap-5">
+<section class="min-h-screen bg-black text-white p-6">
+  <ng-container *ngIf="movie$ | async as movie; else loading">
+    <div class="flex flex-col md:flex-row gap-6 mb-10">
       <img
-        *ngIf="movie.poster_path"
-        [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
-        class="w-72 rounded shadow"
+        class="w-64 rounded shadow-lg"
+        [src]="imagesBaseUrl + 'w500' + movie.poster_path"
+        [alt]="movie.title"
       />
       <div>
-        <h1 class="text-3xl font-bold mb-2">{{ movie.title }}</h1>
-        <p class="mb-2">
-          <strong>Release Date:</strong> {{ movie.release_date }}
-        </p>
-        <p class="mb-2"><strong>Rating:</strong> {{ movie.vote_average }}</p>
-        <p><strong>Overview:</strong> {{ movie.overview }}</p>
+        <h1 class="text-4xl font-bold mb-2">{{ movie.title }}</h1>
+        <p class="text-slate-300 mb-4">{{ movie.overview }}</p>
+        <p><strong>Release Date:</strong> {{ movie.release_date }}</p>
+        <p><strong>Rating:</strong> {{ movie.vote_average }}</p>
       </div>
     </div>
-  </div>
+
+    <!-- Trailer -->
+    <div *ngIf="sanitizedVideoUrl">
+      <h2 class="text-2xl font-semibold mb-2">🎬 Trailer</h2>
+      <iframe
+        [src]="sanitizedVideoUrl"
+        class="w-full max-w-3xl aspect-video rounded"
+        frameborder="0"
+        allowfullscreen
+      ></iframe>
+    </div>
+
+    <!-- Cast -->
+    <div *ngIf="cast$ | async as castList" class="mt-10">
+      <h2 class="text-2xl font-semibold mb-4">⭐ Cast</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4">
+        <div *ngFor="let actor of castList">
+          <img
+            class="w-full h-48 object-cover rounded mb-1"
+            [src]="imagesBaseUrl + 'w185' + actor.profile_path"
+            [alt]="actor.name"
+          />
+          <p class="text-sm">{{ actor.name }}</p>
+          <p class="text-xs text-slate-400">as {{ actor.character }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Similar Movies -->
+    <div *ngIf="similarMovies$ | async as similarList" class="mt-10">
+      <h2 class="text-2xl font-semibold mb-4">🎞️ Similar Movies</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4">
+        <div *ngFor="let sm of similarList">
+          <img
+            class="w-full h-48 object-cover rounded mb-1"
+            [src]="imagesBaseUrl + 'w342' + sm.poster_path"
+            [alt]="sm.title"
+          />
+          <p class="text-sm">{{ sm.title }}</p>
+        </div>
+      </div>
+    </div>
+  </ng-container>
 
   <ng-template #loading>
-    <p class="text-white text-center">Loading movie details...</p>
+    <p class="text-center text-slate-400">Loading movie details...</p>
   </ng-template>
-</div>
+</section>

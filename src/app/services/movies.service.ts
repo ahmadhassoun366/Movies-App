@@ -37,7 +37,13 @@ export class MoviesService {
   fetchMovieVideos(id: string) {
     return this.httpClient
       .get<Videos>(`${this.apiUrl}/movie/${id}/videos?api_key=${this.apiKey}`)
-      .pipe(map((data) => data.results));
+      .pipe(
+        map((data) =>
+          data.results.filter(
+            (video) => video.site === 'YouTube'
+          )
+        )
+      );
   }
 
   fetchMovieCast(id: string) {
