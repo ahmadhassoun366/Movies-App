@@ -1,0 +1,26 @@
+/* home.component.css */
+.ngucarouselPoint {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+  }
+  .leftRs,
+  .rightRs {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background: #222;
+    color: white;
+    border-radius: 999px;
+    padding: 10px;
+    cursor: pointer;
+  }
+  .leftRs {
+    left: 10px;
+  }
+  .rightRs {
+    right: 10px;
+  }
+  

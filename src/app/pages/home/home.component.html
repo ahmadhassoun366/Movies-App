@@ -1,0 +1,56 @@
+<section class="relative min-h-screen bg-black text-white">
+  <!-- Hero Background -->
+  <div
+    class="absolute inset-0 bg-cover bg-center opacity-30"
+    [style.backgroundImage]="'url(https://image.tmdb.org/t/p/original' + (featuredMovies$ | async)?.[0]?.backdrop_path + ')'"
+  ></div>
+
+  <!-- Overlay Content -->
+  <div class="relative z-10 px-8 pt-24 pb-16 max-w-7xl mx-auto text-center">
+    <h1 class="text-5xl md:text-6xl font-bold mb-6">
+      Stream the Latest Movies
+    </h1>
+    <p class="text-lg md:text-xl text-slate-300 mb-8 max-w-2xl mx-auto">
+      Explore action, drama, comedy, and more — all in one place.
+    </p>
+    <a
+      routerLink="/movies"
+      class="bg-red-600 hover:bg-red-700 transition text-white font-semibold py-3 px-6 rounded"
+    >
+      Browse Movies
+    </a>
+  </div>
+</section>
+
+<!-- Movie Grid -->
+<section class="bg-black text-white px-6 pb-16 pt-10">
+  <h2 class="text-3xl font-bold mb-6 text-center">Featured Movies</h2>
+
+  <div
+    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto"
+  >
+    <ng-container *ngIf="featuredMovies$ | async as movies">
+      <div
+        *ngFor="let movie of movies"
+        class="bg-slate-800 rounded-lg shadow-lg overflow-hidden hover:scale-105 transition"
+      >
+        <img
+          class="w-full h-72 object-cover"
+          [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
+          [alt]="movie.title"
+        />
+        <div class="p-4">
+          <h3 class="text-lg font-bold mb-1">{{ movie.title }}</h3>
+          <p class="text-sm text-slate-400 mb-2">{{ movie.release_date }}</p>
+          <p class="text-sm line-clamp-3 mb-3">{{ movie.overview }}</p>
+          <a
+            [routerLink]="['/show-movie', movie.id]"
+            class="inline-block text-blue-400 hover:underline text-sm"
+          >
+            View Details →
+          </a>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</section>

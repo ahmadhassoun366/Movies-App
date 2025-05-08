@@ -1,0 +1,26 @@
+<div class="pt-16 bg-black min-h-screen text-white">
+  <div
+    *ngIf="movie$ | async as movie; else loading"
+    class="p-5 max-w-4xl mx-auto"
+  >
+    <div class="flex flex-col md:flex-row gap-5">
+      <img
+        *ngIf="movie.poster_path"
+        [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
+        class="w-72 rounded shadow"
+      />
+      <div>
+        <h1 class="text-3xl font-bold mb-2">{{ movie.title }}</h1>
+        <p class="mb-2">
+          <strong>Release Date:</strong> {{ movie.release_date }}
+        </p>
+        <p class="mb-2"><strong>Rating:</strong> {{ movie.vote_average }}</p>
+        <p><strong>Overview:</strong> {{ movie.overview }}</p>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #loading>
+    <p class="text-white text-center">Loading movie details...</p>
+  </ng-template>
+</div>
